@@ -1,3 +1,18 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using MenuSystem;
 
-Console.WriteLine("Hello, World!");
+var menu = new Menu();
+
+menu.DrawMenu();
+
+//
+// Console.Write("Insert amount of players:");
+// var AmountOfPlayers = Console.ReadLine();
+// Console.Write(AmountOfPlayers!.GetTypeCode());
+
+// List<string> _players = null!;
+//
+// _players = new List<string>(4);
+//
+// _players[1] = "Dick";
+//
+// Console.WriteLine(_players);

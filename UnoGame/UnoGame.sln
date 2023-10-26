@@ -1,6 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno Items", "Uno Items\Uno Items.csproj", "{A2212D8F-B35A-4E3A-B2F1-A642E4F54956}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{2134DD21-DDAE-49F8-BBD3-8E1DD1A9C128}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!Uno Items", "!Uno Items", "{C4255CE6-A9E0-4598-AE30-699EA0F55DC5}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+		..\.gitignore = ..\.gitignore
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuSystem", "MenuSystem\MenuSystem.csproj", "{4749C10C-F8E2-4F8F-8642-3F3C37F74EB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{3677DA73-2C18-4ABE-AD31-C09AAE02026A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +19,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A2212D8F-B35A-4E3A-B2F1-A642E4F54956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2212D8F-B35A-4E3A-B2F1-A642E4F54956}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2212D8F-B35A-4E3A-B2F1-A642E4F54956}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2212D8F-B35A-4E3A-B2F1-A642E4F54956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2134DD21-DDAE-49F8-BBD3-8E1DD1A9C128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2134DD21-DDAE-49F8-BBD3-8E1DD1A9C128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2134DD21-DDAE-49F8-BBD3-8E1DD1A9C128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2134DD21-DDAE-49F8-BBD3-8E1DD1A9C128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4749C10C-F8E2-4F8F-8642-3F3C37F74EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4749C10C-F8E2-4F8F-8642-3F3C37F74EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4749C10C-F8E2-4F8F-8642-3F3C37F74EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4749C10C-F8E2-4F8F-8642-3F3C37F74EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3677DA73-2C18-4ABE-AD31-C09AAE02026A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3677DA73-2C18-4ABE-AD31-C09AAE02026A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3677DA73-2C18-4ABE-AD31-C09AAE02026A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3677DA73-2C18-4ABE-AD31-C09AAE02026A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
