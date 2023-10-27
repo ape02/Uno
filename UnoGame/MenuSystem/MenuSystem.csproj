@@ -10,4 +10,8 @@
       <ProjectReference Include="..\GameEngine\GameEngine.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Functions.cs" />
+    </ItemGroup>
+
 </Project>
