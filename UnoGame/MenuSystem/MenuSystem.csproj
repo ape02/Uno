@@ -4,14 +4,13 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>GameEngine</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Frame\Frame.csproj" />
       <ProjectReference Include="..\GameEngine\GameEngine.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Functions.cs" />
+      <ProjectReference Include="..\PlayerSystem\PlayerSystem.csproj" />
     </ItemGroup>
 
 </Project>

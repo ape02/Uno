@@ -1,4 +1,4 @@
-﻿using GameEngine;
+﻿using MenuSystem;
 
 // var menu = new Menu();
 //
@@ -9,6 +9,8 @@
 // var AmountOfPlayers = Console.ReadLine();
 // Console.Write(AmountOfPlayers!.GetTypeCode());
 
-Game game = new Game();
 
-game.Start();
+
+Menu menu = new Menu();
+
+menu.Run();

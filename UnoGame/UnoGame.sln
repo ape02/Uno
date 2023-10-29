@@ -9,7 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!Uno Items", "!Uno Items", 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{3677DA73-2C18-4ABE-AD31-C09AAE02026A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuSystem", "MenuSystem\MenuSystem.csproj", "{3677DA73-2C18-4ABE-AD31-C09AAE02026A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerSystem", "PlayerSystem\PlayerSystem.csproj", "{53C31050-64B3-45DD-A731-8AE7636D504E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{B6CB3860-15ED-4697-9279-455A0389001D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frame", "Frame\Frame.csproj", "{45D033A4-C610-462F-A2F5-DFAC541A0119}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +31,17 @@ Global
 		{3677DA73-2C18-4ABE-AD31-C09AAE02026A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3677DA73-2C18-4ABE-AD31-C09AAE02026A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3677DA73-2C18-4ABE-AD31-C09AAE02026A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C31050-64B3-45DD-A731-8AE7636D504E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C31050-64B3-45DD-A731-8AE7636D504E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C31050-64B3-45DD-A731-8AE7636D504E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C31050-64B3-45DD-A731-8AE7636D504E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6CB3860-15ED-4697-9279-455A0389001D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CB3860-15ED-4697-9279-455A0389001D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CB3860-15ED-4697-9279-455A0389001D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CB3860-15ED-4697-9279-455A0389001D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D033A4-C610-462F-A2F5-DFAC541A0119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D033A4-C610-462F-A2F5-DFAC541A0119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D033A4-C610-462F-A2F5-DFAC541A0119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D033A4-C610-462F-A2F5-DFAC541A0119}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
