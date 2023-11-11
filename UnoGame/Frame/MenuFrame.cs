@@ -1,16 +1,17 @@
 ﻿using static System.Console;
+using ConsoleKey = System.ConsoleKey;
 
 namespace Frame;
 
-public class MenuFrame : IFrame
+public class MenuFrame
 {
     private string Title;
     private string Separator = "===================";
-    private Object[] Items;
+    private List<object> Items;
     private int SelectedIndex;
 
 
-    public MenuFrame(string title, Object[] items)
+    public MenuFrame(string title, List<object> items)
     {
         Title = title;
         Items = items;
@@ -30,10 +31,10 @@ public class MenuFrame : IFrame
             
             if (pressedKey == ConsoleKey.UpArrow)
             {
-                SelectedIndex = (SelectedIndex == 0 ? Items.Length - 1 : SelectedIndex - 1);
+                SelectedIndex = (SelectedIndex == 0 ? Items.Count - 1 : SelectedIndex - 1);
             } else if (pressedKey == ConsoleKey.DownArrow)
             {
-                SelectedIndex = (SelectedIndex == Items.Length - 1 ? 0 : SelectedIndex + 1);
+                SelectedIndex = (SelectedIndex == Items.Count - 1 ? 0 : SelectedIndex + 1);
             }
         } while (pressedKey != ConsoleKey.Enter);
 
@@ -44,7 +45,7 @@ public class MenuFrame : IFrame
     {
         WriteLine(Title);
         WriteLine(Separator);
-        for (int i = 0; i < Items.Length; i++)
+        for (int i = 0; i < Items.Count; i++)
         {
             object currentItem = Items[i];
             string prefix;
