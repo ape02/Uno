@@ -22,15 +22,15 @@ using var db = new AppDbContext(contextOptions);
 // apply all the migrations
 db.Database.Migrate();
 
+IGameRepository gameRepository = new GameRepositoryFileSystem();
+
+var versionSwitch = "Switch to Database version";
+
 // =========MAIN=========
 while (true)
 {
-    var chosenItem = Display.MainMenu();
-    // IGameRepository gameRepository = new GameRepositoryFileSystem();
-    IGameRepository gameRepository = new EfGameRepository(db);
     var savedGameList = gameRepository.GetSavedGames();
-    WriteLine(savedGameList.Count);
-    ReadLine();
+    var chosenItem = Display.MainMenu(savedGameList, versionSwitch);
     
       switch (chosenItem)
     {
@@ -95,11 +95,19 @@ while (true)
                 }
             }
             break;
+        case "Switch to Database version":
+            versionSwitch = "Switch to File System version";
+            gameRepository = new EfGameRepository(db);
+            break;
+        case "Switch to File System version":
+            versionSwitch = "Switch to Database version";
+            gameRepository = new GameRepositoryFileSystem();
+            break;
         case "Exit":
             Display.Exit();
             break;
         default:
-            Display.MainMenu();
+            Display.MainMenu(savedGameList, "Switch to Database version");
             break;
     }  
 }
@@ -107,7 +115,7 @@ while (true)
 void NewGame()
 {
     UnoGameEngine.Start();
-    Game game = new Game(); 
+    Game game = new Game(db); 
     game.Run();
     Game.GetWinner();
 }

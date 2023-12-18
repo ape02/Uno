@@ -7,8 +7,15 @@ namespace GameEngine;
 
 public class Game
 {
+    private AppDbContext _db;
     private GameState state = UnoGameEngine.State;
     private static bool hasWinner;
+
+    public Game(AppDbContext db)
+    {
+        _db = db;
+    }
+
     public void Run()
     {
         int choice;
@@ -33,6 +40,7 @@ public class Game
                 continue;
             }
             choice = field.Draw();
+            IGameRepository gameRepository;
             if (choice == -1)
             {
                 int pauseChoice;
@@ -46,31 +54,14 @@ public class Game
                             continue;
                         case 1:
                             // Save game here
-                            GameRepositoryFileSystem gameRepository = new GameRepositoryFileSystem();
-                
-                            if (string.IsNullOrEmpty(state.GameName))
-                            {
-                                string? gameName;
-                                do
-                                {
-                                    WriteLine("Write a name for the game and press enter:");
-                                    gameName = ReadLine();
-                                    if (!string.IsNullOrWhiteSpace(gameName)) continue;
-                                    Clear();
-                                    Write("Name can't be empty!");
-                                    Thread.Sleep(2000);
-                                    Clear();
-                                } while (string.IsNullOrWhiteSpace(gameName));
-
-                                state.GameName = gameName;
-                            }
-                
-                            gameRepository.SaveGame(state.Id, state);
-                            WriteLine("Game is saved!");
-                            WriteLine("Press any key to continue...");
-                            ReadLine();
+                            gameRepository = new GameRepositoryFileSystem();
+                            SaveGame(gameRepository);
                             break;
                         case 2:
+                            gameRepository = new EfGameRepository(_db);
+                            SaveGame(gameRepository);
+                            break;
+                        case 3:
                             return;
                     }
                 } while (pauseChoice != 0);
@@ -90,6 +81,31 @@ public class Game
             break;
         }
         
+    }
+
+    private void SaveGame(IGameRepository gameRepository)
+    {
+        if (string.IsNullOrEmpty(state.GameName))
+        {
+            string? gameName;
+            do
+            {
+                WriteLine("Write a name for the game and press enter:");
+                gameName = ReadLine();
+                if (!string.IsNullOrWhiteSpace(gameName)) continue;
+                Clear();
+                Write("Name can't be empty!");
+                Thread.Sleep(2000);
+                Clear();
+            } while (string.IsNullOrWhiteSpace(gameName));
+
+            state.GameName = gameName;
+        }
+
+        gameRepository.SaveGame(state.Id, state);
+        WriteLine("Game is saved!");
+        WriteLine("Press any key to continue...");
+        ReadLine();
     }
 
     public static void GetWinner()

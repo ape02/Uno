@@ -7,22 +7,12 @@ namespace MenuSystem;
 
 public static class Display
 {
-    // public static void Continue()
-    // {
-    //     Menu menu = new Menu("Main Menu");
-    //     List<object> items = new List<object> { "New Game", "Load Game", "Exit" };
-    //
-    //     menu.AddMenuItems(items);
-    //
-    //     int index = menu.Draw();
-    // }
     
-    public static string MainMenu()
+    public static string MainMenu(List<(GameState, DateTime)> savedGameList, string versionSwitch)
     {
         Menu menu = new Menu("Main Menu");
-        List<string> items = new List<string> { "New Game", "Load Game", "Options", "Exit" };
-        IGameRepository gameRepository = new GameRepositoryFileSystem();
-        if (gameRepository.GetSavedGames().Count != 0)
+        List<string> items = new List<string> { "New Game", "Load Game", "Options", versionSwitch, "Exit" };
+        if (savedGameList.Count != 0)
         {
             items.Insert(0, "Continue");
         }
@@ -63,7 +53,7 @@ public static class Display
     public static int PauseMenu()
      {
          string Title = "Pause";
-         List<object> items = new List<object>{ "Resume Game", "Save game", "Exit" };
+         List<object> items = new List<object>{ "Resume Game", "Save game to File System", "Save game to Database",  "Exit" };
          Menu menu = new Menu(Title);
          menu.AddMenuItems(items);
          int index = menu.Draw();

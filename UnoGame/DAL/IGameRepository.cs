@@ -1,4 +1,5 @@
 ﻿using Domain;
+using static System.Console;
 
 namespace DAL;
 
