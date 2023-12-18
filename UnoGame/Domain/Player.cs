@@ -4,6 +4,7 @@ namespace Domain;
 
 public class Player
 {
+    public Guid Id { get; set; }
     public PlayerType Type { get; set; } = PlayerType.Human;
     public string Nickname { get; set; }
     public List<GameCard> Cards { get; set; } = new();

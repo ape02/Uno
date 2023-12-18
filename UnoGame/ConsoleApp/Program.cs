@@ -2,17 +2,35 @@
 using Domain;
 using GameEngine;
 using MenuSystem;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Uno_Items;
 using static System.Console;
 
 
 bool shuffleIncluded = false;
+
+var connectionString = "DataSource=<%temppath%>uno.db;Cache=Shared";
+connectionString = connectionString.Replace("<%temppath%>", Path.GetTempPath());
+
+var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
+    .UseSqlite(connectionString)
+    .EnableDetailedErrors()
+    .EnableSensitiveDataLogging()
+    .Options;
+using var db = new AppDbContext(contextOptions);
+// apply all the migrations
+db.Database.Migrate();
+
 // =========MAIN=========
 while (true)
 {
     var chosenItem = Display.MainMenu();
-    IGameRepository gameRepository = new GameRepositoryFileSystem();
+    // IGameRepository gameRepository = new GameRepositoryFileSystem();
+    IGameRepository gameRepository = new EfGameRepository(db);
     var savedGameList = gameRepository.GetSavedGames();
+    WriteLine(savedGameList.Count);
+    ReadLine();
     
       switch (chosenItem)
     {
