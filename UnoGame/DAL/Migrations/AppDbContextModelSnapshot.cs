@@ -26,6 +26,9 @@ namespace DAL.Migrations
                     b.Property<DateTime>("CreatedAtDt")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GameName")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("TEXT");

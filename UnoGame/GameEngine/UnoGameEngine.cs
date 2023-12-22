@@ -8,6 +8,16 @@ public class UnoGameEngine
 {
     public static GameState State = new ();
 
+    public Player GetActivePlayer()
+    {
+        return State.Players[State.PlayerIndex];
+    }
+    
+    public int GetActivePlayerNumber()
+    {
+        return State.PlayerIndex;
+    }
+
     public static void Start()
     {
         GenerateDeck();

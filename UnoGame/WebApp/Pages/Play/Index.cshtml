@@ -1,0 +1,38 @@
+@page
+@model WebApp.Pages.Play.Index
+
+<h1>Play</h1>
+
+<h5>Reload page in <span id="reload-label">-</span></h5>
+
+<h4>Active player: @Model.Engine.GetActivePlayerNumber() - @Model.Engine.GetActivePlayer().Nickname</h4>
+
+Draw desk
+
+Are we active - show controls
+
+@Model.Engine.GetActivePlayer().Id
+@Model.PlayerId
+
+@if (Model.Engine.GetActivePlayer().Id == Model.PlayerId)
+{
+    <div>Yes, Active</div> 
+}
+
+
+
+@section Scripts
+{
+    <script>
+        let timerValue = 5;
+        let timerLabel = document.querySelector("#reload-label");
+        
+        setInterval(() => {
+            timerValue--;
+            timerLabel.innerHTML = timerValue.toString();
+            if (timerValue<=0) {
+                window.location.reload();
+            }
+        }, 1000);
+    </script>
+}

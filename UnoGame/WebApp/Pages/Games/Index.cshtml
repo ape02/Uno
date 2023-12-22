@@ -1,0 +1,48 @@
+@page
+@model WebApp.Pages_Games.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Games list</h1>
+
+<p>
+    <a asp-area="" asp-page="Create" class="btn btn-outline-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Game[0].CreatedAtDt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Game[0].UpdatedAtDt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Game[0].State)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Game) {
+        <tr>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => item.CreatedAtDt)
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => item.UpdatedAtDt)
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                <a asp-area="" asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -18,6 +18,7 @@ namespace DAL.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     CreatedAtDt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAtDt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    GameName = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
