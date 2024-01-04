@@ -1,45 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Domain;
+using Domain.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using DAL;
-using Domain.Database;
+using System.Text.Json;
+using Helpers;
+using GameEngine;
 
-namespace WebApp.Pages_Games
+namespace WebApp.Pages_Games;
+
+public class CreateModel : PageModel
 {
-    public class CreateModel : PageModel
+    private readonly DAL.AppDbContext _context;
+
+    public CreateModel(DAL.AppDbContext context)
     {
-        private readonly DAL.AppDbContext _context;
-
-        public CreateModel(DAL.AppDbContext context)
+        _context = context;
+    }
+    
+    [BindProperty] public Domain.Database.Game Game { get; set; } = default!;
+    [BindProperty] public bool ShuffleIncluded { get; set; }
+    public async Task<IActionResult> OnPost()
+    {
+        Game.CreatedAtDt = DateTime.Now;
+        Game.UpdatedAtDt = DateTime.Now;
+        GameState state = new GameState
         {
-            _context = context;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-
-        [BindProperty]
-        public Game Game { get; set; } = default!;
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            Game.CreatedAtDt = DateTime.Now;
-            Game.UpdatedAtDt = DateTime.Now;
-            _context.Games.Add(Game);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
-        }
+            GameName = Game.GameName,
+            ShuffleCardIncluded = ShuffleIncluded
+        };
+        UnoGameEngine.State = state;
+        UnoGameEngine.GenerateDeck();
+        UnoGameEngine.ShuffleDeck();
+        UnoGameEngine.DefineCurrentCard();
+        Game.Players = new List<Domain.Database.Player>();
+        Game.Id = Guid.NewGuid();
+        state.Id = Game.Id;
+        Game.State = JsonSerializer.Serialize(UnoGameEngine.State, JsonHelper.JsonSerializerOptions);
+        _context.Games.Add(Game);
+        await _context.SaveChangesAsync();
+        return RedirectToPage("./Index");
     }
 }

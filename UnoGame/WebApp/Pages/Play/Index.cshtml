@@ -1,32 +1,164 @@
 @page
+@using GameEngine
+@using Domain
 @model WebApp.Pages.Play.Index
 
 <h1>Play</h1>
 
 <h5>Reload page in <span id="reload-label">-</span></h5>
 
-<h4>Active player: @Model.Engine.GetActivePlayerNumber() - @Model.Engine.GetActivePlayer().Nickname</h4>
+<h5>@UnoGameEngine.GetActivePlayer().Nickname turn</h5>
 
-Draw desk
+@* @UnoGameEngine.GetActivePlayer().Id <br/> *@
+@* @Model.PlayerId *@
+@* <h5>@UnoGameEngine.GetActivePlayer().Cards.Count</h5> *@
+<div class="pg-body-wrapper">
+    <div class="table-body table-responsive-sm">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nickname</th>
+                <th scope="col">Type</th>
+                <th scope="col">Points</th>
+                <th scope="col">Card count</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var player in UnoGameEngine.State.Players.Select((value, index) => new { Index = index, Player = value }))
+            {
+                if (player.Player.Id == Model.PlayerId)
+                {
+                    <tr class="table-success">
+                        <th scope="row">@(player.Index + 1)</th>
+                        <td>@player.Player.Nickname</td>
+                        <td>@player.Player.Type</td>
+                        <td>@player.Player.Points</td>
+                        <td>@player.Player.Cards.Count</td>
+                    </tr>
+                }
+                else if (UnoGameEngine.GetActivePlayer().Id == player.Player.Id)
+                {
+                    <tr class="table-info">
+                        <th scope="row">@(player.Index + 1)</th>
+                        <td>@player.Player.Nickname</td>
+                        <td>@player.Player.Type</td>
+                        <td>@player.Player.Points</td>
+                        <td>@player.Player.Cards.Count</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <th scope="row">@(player.Index + 1)</th>
+                        <td>@player.Player.Nickname</td>
+                        <td>@player.Player.Type</td>
+                        <td>@player.Player.Points</td>
+                        <td>@player.Player.Cards.Count</td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="playground-body">
+        <div class="field">
+            <div class="on-table">
+                <div class="uno uno-@UnoGameEngine.State.CurrentCard.CardColor.ToString().ToLower()">
+                    <div class="oval">
+                        <span class="unodesc unodesc-@UnoGameEngine.State.CurrentCard.CardColor.ToString().ToLower()">
+                            @UnoGameEngine.State.CurrentCard.GetShortenedValue()
+                        </span>
+                    </div>
+                </div>
+            </div>
+            @if (UnoGameEngine.GetActivePlayer().Id == Model.PlayerId)
+            {
+                <form method="post" class="hand" asp-page-handler="card">
+                    <div class="hand">
+                        <input type="hidden" name="PlayerId" value="@Model.PlayerId">
+                        <input type="hidden" name="GameId" value="@Model.GameId">
+                        @for (int i = 0; i < UnoGameEngine.GetActivePlayer().GetCards().Count; i++)
+                        {
+                            <button type="submit" name="selectedCard" value="@i" class="uno uno-@UnoGameEngine.GetActivePlayer().GetCards()[i].CardColor.ToString().ToLower()">
+                                <div class="oval oval-@UnoGameEngine.GetActivePlayer().GetCards()[i].CardColor.ToString().ToLower()">
+                                    <span class="unodesc unodesc-@UnoGameEngine.GetActivePlayer().GetCards()[i].CardColor.ToString().ToLower()">
+                                        @UnoGameEngine.GetActivePlayer().GetCards()[i].GetShortenedValue()
+                                    </span>
+                                </div>
+                            </button>
+                        }
+                    </div>
+                </form>
+                @if (Model.PickCard)
+                {
+                    <form asp-page-handler="wild">
+                        <input type="hidden" name="SelectedCardIndex" value="@Model.SelectedCardIndex">
+                        <input type="hidden" name="PlayerId" value="@Model.PlayerId">
+                        <input type="hidden" name="GameId" value="@Model.GameId">
+                        <div class="choose-card-block">
+                            @foreach (var color in Enum.GetValues(typeof(ECardColor))
+                                .Cast<ECardColor>()
+                                .Where(c => c != ECardColor.Wild))
+                            {
+                                <button type="submit" name="selectedColor" value="@color.ToString()" class="btn btn-@color.ToString().ToLower()">@color.ToString()</button>
+                            }
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="button-block gap-3">
+                        <form method="post" asp-page-handler="take">
+                            <input type="hidden" name="GameId" value="@Model.GameId">
+                            <input type="hidden" name="PlayerId" value="@Model.PlayerId">
+                            <button type="submit" value="Take" class="btn btn-danger">Take card</button>
+                        </form>
+                        <form method="post" asp-page-handler="save">
+                            <input type="hidden" name="GameId" value="@Model.GameId">
+                            <button type="submit" value="Save" class="btn btn-success">Exit</button>
+                        </form>
+                    </div>
+                }
+                @if (Model.Message != null)
+                {
+                    <div class="alert alert-danger mt-3">
+                        @Model.Message
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="hand">
+                    @foreach (var card in Model.currentPlayer.GetCards())
+                    {
+                        <div class="uno uno-muted">
+                            <div class="oval oval-muted">
+                                <span class="unodesc unodesc-muted">
+                                    UNO
+                                </span>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="button-block gap-3">
+                    <form method="post" asp-page-handler="save">
+                        <input type="hidden" name="GameId" value="@Model.GameId">
+                        <button type="submit" value="Save" class="btn btn-success">Exit</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
 
-Are we active - show controls
-
-@Model.Engine.GetActivePlayer().Id
-@Model.PlayerId
-
-@if (Model.Engine.GetActivePlayer().Id == Model.PlayerId)
-{
-    <div>Yes, Active</div> 
-}
-
-
+</div>
 
 @section Scripts
 {
     <script>
         let timerValue = 5;
         let timerLabel = document.querySelector("#reload-label");
-        
+
         setInterval(() => {
             timerValue--;
             timerLabel.innerHTML = timerValue.toString();

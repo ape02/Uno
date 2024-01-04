@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DAL;
+using Domain;
 using Domain.Database;
+using Helpers;
+using Player = Domain.Database.Player;
 
 namespace WebApp.Pages_Games
 {
@@ -19,9 +17,9 @@ namespace WebApp.Pages_Games
         {
             _context = context;
         }
-
-        [BindProperty]
-        public Game Game { get; set; } = default!;
+        [BindProperty] public List<Player> Players { get; set; } = new ();
+        [BindProperty] public Game Game { get; set; } = default!;
+        [BindProperty] public bool ShuffleIncluded { get; set; }
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -29,13 +27,15 @@ namespace WebApp.Pages_Games
             {
                 return NotFound();
             }
-
-            var game =  await _context.Games.FirstOrDefaultAsync(m => m.Id == id);
+            
+            var game = await GetGame(id);
             if (game == null)
             {
                 return NotFound();
             }
             Game = game;
+            Players = game.Players!.ToList();
+            ShuffleIncluded = JsonSerializer.Deserialize<GameState>(Game.State, JsonHelper.JsonSerializerOptions)!.ShuffleCardIncluded;
             return Page();
         }
 
@@ -43,13 +43,38 @@ namespace WebApp.Pages_Games
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var state = JsonSerializer.Deserialize<GameState>(Game.State, JsonHelper.JsonSerializerOptions);
+            for (int i = 0; i < Players.Count; i++)
+            {
+                var player = Players[i];
+                var existingPlayer = _context.Players.Find(player.Id);
+
+                if (existingPlayer != null)
+                {
+                    existingPlayer.Nickname = player.Nickname;
+                    existingPlayer.PlayerType = player.PlayerType;
+                    state!.Players[i].Nickname = player.Nickname;
+                    state.Players[i].Type = player.PlayerType;
+                }
+            }
+            Game.UpdatedAtDt = DateTime.Now;
+            var shuffleCard = state!.Deck.FirstOrDefault(c => c.CardValue == ECardValue.Shuffle);
+            if (ShuffleIncluded && shuffleCard == null)
+            {
+                state.Deck.Add(new GameCard(ECardValue.Shuffle, ECardColor.Wild));
+            }
+            else if (ShuffleIncluded == false && shuffleCard != null)
+            {
+                state.Deck.Remove(shuffleCard);
+            }
+            state.ShuffleCardIncluded = ShuffleIncluded;
+            state.GameName = Game.GameName;
+            Game.State = JsonSerializer.Serialize(state, JsonHelper.JsonSerializerOptions);
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
             _context.Attach(Game).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -60,18 +85,24 @@ namespace WebApp.Pages_Games
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-
             return RedirectToPage("./Index");
         }
 
         private bool GameExists(Guid id)
         {
             return _context.Games.Any(e => e.Id == id);
+        }
+
+        private async Task<Game> GetGame(Guid? id)
+        {
+            var game =  await _context.Games.FirstOrDefaultAsync(m => m.Id == id);
+            await _context.Players
+                .Where(p => p.GameId == game!.Id)
+                .DefaultIfEmpty()
+                .ToListAsync();
+            return game!;
         }
     }
 }

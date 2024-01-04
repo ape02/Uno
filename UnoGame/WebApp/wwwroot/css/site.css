@@ -29,3 +29,126 @@ body {
   width: 160px;
   object-fit: contain;
 }
+
+.field{
+  border: 2px solid black;
+  box-shadow: inset 0px 0px 65px 9px rgba(33,33,33,1);
+  height: 50vh;
+  border-radius: 25px;
+  background: #13633f;
+  position: relative;
+}
+
+.on-table, .hand, .button-block{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40%;
+}
+
+.button-block {
+  height: 20%;
+}
+
+.pg-body-wrapper{
+  display: flex;
+  gap: 0.5rem;
+}
+
+.playground-body{
+  flex: 3;
+}
+
+.table-body{
+  flex: 1.5;
+}
+
+.uno {
+  margin: 0 5px 5px;
+  border: 3px solid whitesmoke;
+  border-radius: 5px;
+  height: 85px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: black;
+  position: relative;
+  z-index: 1;
+}
+
+.oval {
+  position: absolute;
+  transform: rotate(-60deg);
+  width: 145%;
+  height: 60%;
+  background-color: whitesmoke;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: black;
+  z-index: -1;
+}
+
+.oval-muted {
+  position: relative;
+  background-color: darkred;
+}
+
+.oval-wild{
+  background: linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(29,253,62,1) 50%, rgba(12,0,255,1) 100%);
+}
+
+.uno-muted{
+  border: 3px solid yellow;
+}
+
+.unodesc{
+  font-size: 24pt;
+  text-shadow: -2px 1px black;
+  -webkit-text-stroke: 1px black;
+  background: transparent;
+  transform: rotate(60deg);
+  display: inline-block;
+}
+
+.unodesc-red {color: red}
+.unodesc-green {color: green}
+.unodesc-yellow {color: yellow}
+.unodesc-blue {color: blue}
+.unodesc-wild {
+  color: purple;
+}
+.unodesc-muted {
+  transform: rotate(0deg);
+  color: yellow
+}
+
+
+.uno-red { background-color: red; }
+.uno-green { background-color: green; }
+.uno-yellow { background-color: yellow; }
+.uno-blue { background-color: blue; }
+.uno-wild { background-color: purple;
+border-color: greenyellow}
+.uno-muted {background-color: black}
+
+
+.btn-yellow{background: yellow;}
+.btn-green{background: green;
+  color: white}
+.btn-red{background: red;
+  color: white}
+.btn-blue{background: blue;
+  color: white}
+
+.choose-card-block{
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}

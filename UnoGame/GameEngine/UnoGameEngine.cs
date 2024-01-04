@@ -8,7 +8,7 @@ public class UnoGameEngine
 {
     public static GameState State = new ();
 
-    public Player GetActivePlayer()
+    public static Player GetActivePlayer()
     {
         return State.Players[State.PlayerIndex];
     }
@@ -22,35 +22,44 @@ public class UnoGameEngine
     {
         GenerateDeck();
         ShuffleDeck();
+        DefineCurrentCard();
+        GiveCardsToPlayers();
+    }
+
+    public static void DefineCurrentCard()
+    {
         State.CurrentCard = State.Deck[0];
         while (State.CurrentCard.CardColor == ECardColor.Wild)
         {
             ShuffleDeck();
             State.CurrentCard = State.Deck[0];
         }
-        GiveCardsToPlayers();
         State.Deck.RemoveAt(0);
     }
-    public static void CheckDeck()
+
+    public static void CheckDeck(bool inWeb)
     {
         if (State.Deck.Count == 0)
         {
             if (State.BeatenDeck.Count != 0)
             {
                 int count = 0;
-                while (count != 3)
+                if (!inWeb)
                 {
-                    for (int j = 0; j <= 3; j++)
+                    while (count != 3)
                     {
-                        var dots = new string('.', j);
-                        Clear();
-                        WriteLine($"Shuffling beaten cards{dots}");
-                        Thread.Sleep(300);
+                        for (int j = 0; j <= 3; j++)
+                        {
+                            var dots = new string('.', j);
+                            Clear();
+                            WriteLine($"Shuffling beaten cards{dots}");
+                            Thread.Sleep(300);
+                        }
+
+                        count++;
                     }
 
-                    count++;
                 }
-
                 State.Deck = new List<GameCard>(State.BeatenDeck);
                 State.BeatenDeck.Clear();
                 ShuffleDeck();
@@ -58,9 +67,9 @@ public class UnoGameEngine
         }
     }
     
-     public static void Take(Player player, int cardsCount)
+     public static void Take(Player player, int cardsCount, bool inWeb)
      {
-         if (State.Deck.Count == 0)
+         if (State.Deck.Count == 0 && !inWeb)
          {
              if (State.BeatenDeck.Count != 0) return;
              WriteLine("Players have all cards!");
@@ -79,7 +88,7 @@ public class UnoGameEngine
              {
                  WriteLine($"Nothing to take, deck is empty. Taken cards:{i + 1}");
                  Thread.Sleep(2000);
-                 CheckDeck();
+                 CheckDeck(inWeb);
                  return;
              }
          }
@@ -125,7 +134,7 @@ public class UnoGameEngine
          }
      }
 
-     private static void ShuffleDeck()
+     public static void ShuffleDeck()
      {
          if (State.Deck.Count < 2)
          {
@@ -142,7 +151,7 @@ public class UnoGameEngine
          }
      }
      
-     private static void GenerateDeck()
+     public static void GenerateDeck()
      {
          if (State.Deck.Count != 0) return;
          var colors = Enum.GetValues(typeof(ECardColor))

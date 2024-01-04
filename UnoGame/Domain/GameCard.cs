@@ -30,4 +30,19 @@ public class GameCard
             _ => "0"
         };
     }
+    
+    public string GetShortenedValue()
+    {
+        switch (CardValue)
+        {
+            case ECardValue.Shuffle:
+                return "SH";
+            case ECardValue.ValueReverse:
+                return "R";
+            case ECardValue.ValueSkip:
+                return "S";
+            default:
+                return CardValue.Description();
+        }
+    } 
 }

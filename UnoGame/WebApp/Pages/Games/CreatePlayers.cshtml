@@ -1,0 +1,36 @@
+﻿@page
+@using Domain
+@model WebApp.Pages.Games.CreatePlayers
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create players for game @Model.Game.GameName</h1>
+<form method="post">
+    <div class="input-group mb-3 mt-3">
+        <label asp-for="PlayerCount" class="me-3 bg-white align-self-center">Amount of players</label>
+        <input asp-for="PlayerCount" type="number" class="form-control rounded" min="2" max="7">
+    </div>
+    <span asp-validation-for="PlayerCount" class="text-danger"></span>
+    @if (Model.PlayerCount > 0)
+        {
+            for (int i = 0; i < Model.PlayerCount; i++)
+            {
+                <div class="input-group d-flex mb-3 mt-3 gap-2">
+                    <label asp-for="Players[i].Nickname" class="control-label me-3 bg-white align-self-center">Player @(i + 1) nickname</label>
+                    <input asp-for="Players[i].Nickname" placeholder="Nickname" type="text" class="form-control rounded"/>
+                    <select asp-for="Players[i].PlayerType" class="form-control rounded">
+                        @foreach (var playerType in Enum.GetValues(typeof(PlayerType)).Cast<PlayerType>())
+                        {
+                            <option value="@playerType">@playerType</option>
+                        }
+                    </select>
+                </div>
+                <input type="hidden" asp-for="Players[i].Id"/>
+                <input type="hidden" asp-for="Players[i].GameId"/>
+            }
+        }
+        
+    <button type="submit" class="d-block btn btn-primary mt-3">Submit</button>
+</form>

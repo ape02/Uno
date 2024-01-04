@@ -5,19 +5,19 @@ namespace GameEngine;
 
 public static class Processor
 {
-    public static void ProcessCard(int chosenIndex)
+    public static void ProcessCard(int chosenIndex, bool inWeb)
          {
              Player currentPlayer = UnoGameEngine.State.Players[UnoGameEngine.State.PlayerIndex];
              GameCard cardInHand = currentPlayer.GetCardAtIndex(chosenIndex);
              bool validated = UnoGameEngine.ValidateCard(cardInHand);
     
-             if (cardInHand.CardColor == ECardColor.Wild)
+             if (cardInHand.CardColor == ECardColor.Wild && !inWeb)
              {
-                 ProcessWild(currentPlayer, chosenIndex, cardInHand);
+                 ProcessWild(currentPlayer, chosenIndex, cardInHand, null);
                  return;
              }
     
-             if (!validated)
+             if (!validated && !inWeb)
              {
                  ShowWarning();
                  return;
@@ -29,7 +29,7 @@ public static class Processor
                      // TakeTwo(chosenIndex);
                      int nextIndex = (UnoGameEngine.State.PlayerIndex + 1) % UnoGameEngine.State.Players.Count;
                      Player nextPlayer = UnoGameEngine.State.Players[nextIndex];
-                     UnoGameEngine.Take(nextPlayer, 2);
+                     UnoGameEngine.Take(nextPlayer, 2, inWeb);
                      UnoGameEngine.State.Players[UnoGameEngine.State.PlayerIndex].DeleteCardAtIndex(chosenIndex);
                      UnoGameEngine.State.PlayerIndex = (UnoGameEngine.State.PlayerIndex + 2) % UnoGameEngine.State.Players.Count;
                      break;
@@ -51,14 +51,14 @@ public static class Processor
              UnoGameEngine.State.CurrentCard = cardInHand;
          }
     
-    private static void ProcessWild(Player currentPlayer, int chosenIndex, GameCard cardInHand)
+    public static void ProcessWild(Player currentPlayer, int chosenIndex, GameCard cardInHand, ECardColor? webChosenColor)
     {
         if (cardInHand.CardValue == ECardValue.ValueTakeFour)
         {
             // TakeFour(chosenIndex);
             int nextIndex = (UnoGameEngine.State.PlayerIndex + 1) % UnoGameEngine.State.Players.Count;
             Player nextPlayer = UnoGameEngine.State.Players[nextIndex];
-            UnoGameEngine.Take(nextPlayer, 4);
+            UnoGameEngine.Take(nextPlayer, 4, webChosenColor != null);
         }
         UnoGameEngine.State.BeatenDeck.Add(UnoGameEngine.State.CurrentCard);
         UnoGameEngine.State.BeatenDeck.Add(cardInHand);
@@ -80,23 +80,34 @@ public static class Processor
                 allCards.RemoveRange(0, cardsPerPlayer);
             }
 
-            int count = 0;
-            while (count != 3)
+            if (webChosenColor == null)
             {
-                for (int j = 0; j <= 3; j++)
+                int count = 0;
+                while (count != 3)
                 {
-                    var dots = new string('.', j);
-                    Clear();
-                    WriteLine($"Shuffling players cards{dots}");
-                    Thread.Sleep(300);
-                }
+                    for (int j = 0; j <= 3; j++)
+                    {
+                        var dots = new string('.', j);
+                        Clear();
+                        WriteLine($"Shuffling players cards{dots}");
+                        Thread.Sleep(300);
+                    }
 
-                count++;
+                    count++;
+                }
             }
         }
-        ECardColor chosenColor = ChooseCardColor();
+
+        if (webChosenColor == null)
+        {
+            ECardColor chosenColor = ChooseCardColor();
+            UnoGameEngine.State.CurrentCard = new GameCard(ECardValue.Empty, chosenColor);
+        }
+        else
+        {
+            UnoGameEngine.State.CurrentCard = new GameCard(ECardValue.Empty, webChosenColor.Value);
+        }
         UnoGameEngine.State.PlayerIndex = (UnoGameEngine.State.PlayerIndex + 2) % UnoGameEngine.State.Players.Count;
-        UnoGameEngine.State.CurrentCard = new GameCard(ECardValue.Empty, chosenColor);
     }
 
     private static void ShowWarning()

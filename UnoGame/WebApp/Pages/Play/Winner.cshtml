@@ -1,0 +1,12 @@
+﻿@page
+@model WebApp.Pages.Play.Winner
+
+@{
+    ViewData["Title"] = "WINNER";
+}
+
+<div class="container-lg text-center border-1">
+    <h1 class="align-middle">WINNER IS</h1>
+    <h2>@Model.GameWinner</h2>
+    <a asp-area="" asp-page="../Index" class="btn btn-outline-primary mt-3">To Main Page</a>
+</div>

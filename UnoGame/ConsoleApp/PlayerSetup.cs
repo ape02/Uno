@@ -33,7 +33,9 @@ public class PlayerSetup
             var playerAmount = index + 2;
             for (int i = 0; i < playerAmount; i++)
             {
-                gameState.Players.Add(new Player($"Player {i + 1}"));
+                var player = new Player($"Player {i + 1}");
+                player.Id = Guid.NewGuid();
+                gameState.Players.Add(player);
                 items.Add(i + 1);
             }
             items.Add("Back");

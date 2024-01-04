@@ -5,32 +5,25 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Create Game</h1>
 
-<h4>Game</h4>
 <hr/>
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @* <div class="form-group"> *@
-            @*     <label asp-for="Game.CreatedAtDt" class="control-label mt-3 mb-1"></label> *@
-            @*     <input asp-for="Game.CreatedAtDt" class="form-control"/> *@
-            @*     <span asp-validation-for="Game.CreatedAtDt" class="text-danger"></span> *@
-            @* </div> *@
-            @* <div class="form-group"> *@
-            @*     <label asp-for="Game.UpdatedAtDt" class="control-label"></label> *@
-            @*     <input asp-for="Game.UpdatedAtDt" class="form-control"/> *@
-            @*     <span asp-validation-for="Game.UpdatedAtDt" class="text-danger"></span> *@
-            @* </div> *@
-            <div class="form-group">
-                <label asp-for="Game.GameName" class="control-label mt-3 mb-1"></label>
-                <input asp-for="Game.GameName" class="form-control"/>
-                <span asp-validation-for="Game.GameName" class="text-danger"></span>
+            <div class="input-group mb-3 mt-3">
+                <label asp-for="Game.GameName" class="me-3 bg-white align-self-center">Game name</label>
+                <input asp-for="Game.GameName" type="text" class="form-control rounded">
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary mt-3"/>
+            <span asp-validation-for="Game.GameName" class="text-danger"></span>
+            <div class="btn-group-toggle" data-toggle="buttons">
+                <label asp-for="ShuffleIncluded" class="btn btn-secondary">
+                    <input asp-for="ShuffleIncluded" type="checkbox"> Include "Shuffle Card"
+                </label>
             </div>
+
+            <button type="submit" class="d-block btn btn-primary mt-3">Submit</button>
         </form>
     </div>
 </div>

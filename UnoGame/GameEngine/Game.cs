@@ -21,7 +21,7 @@ public class Game
         int choice;
         while (true)
         {
-             UnoGameEngine.CheckDeck();
+            UnoGameEngine.CheckDeck(false);
             GameField field = new GameField(state);
             var currentPlayer = state.Players[state.PlayerIndex];
 
@@ -36,7 +36,7 @@ public class Game
                     .OrderByDescending(card => card.CardValue);
                 aiChoice = currentPlayer.GetCards().IndexOf(matchingCards.First());
                 choice = aiChoice;
-                Processor.ProcessCard(choice);
+                Processor.ProcessCard(choice, false);
                 continue;
             }
             choice = field.Draw();
@@ -67,12 +67,12 @@ public class Game
                 } while (pauseChoice != 0);
             } else if (choice == currentPlayer.GetCards().Count)
             {
-                UnoGameEngine.Take(currentPlayer, 1);
+                UnoGameEngine.Take(currentPlayer, 1, false);
             }
             else
             {
                 UnoGameEngine.ValidateCard(currentPlayer.GetCardAtIndex(choice));
-                Processor.ProcessCard(choice);
+                Processor.ProcessCard(choice, false);
             }
 
             if (!(state.Players.Any(player => player.Points >= 500) ||

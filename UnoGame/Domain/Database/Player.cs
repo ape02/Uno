@@ -5,7 +5,7 @@ namespace Domain.Database;
 public class Player : BaseEntity
 {
     [MaxLength(128)]
-    public string NickName { get; set; } = default!;
+    public string Nickname { get; set; } = default!;
 
     public PlayerType PlayerType { get; set; }
     

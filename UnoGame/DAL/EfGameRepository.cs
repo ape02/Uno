@@ -21,19 +21,29 @@ public class EfGameRepository : IGameRepository
         {
             game = new Game()
             {
+                GameName = state.GameName,
                 Id = state.Id,
                 State = JsonSerializer.Serialize(state, JsonHelper.JsonSerializerOptions),
                 Players = state.Players.Select(p => new Domain.Database.Player()
                 {
                     Id = p.Id,
-                    NickName = p.Nickname,
-                    PlayerType = p.Type
+                    Nickname = p.Nickname,
+                    PlayerType = p.Type,
+                    GameId = state.Id
                 }).ToList()
             };
             _ctx.Games.Add(game);
         }
         else
         {
+            game.GameName = state.GameName;
+            game.Players = state.Players.Select(p => new Domain.Database.Player()
+            {
+                Id = p.Id,
+                Nickname = p.Nickname,
+                PlayerType = p.Type,
+                GameId = state.Id
+            }).ToList();
             game.UpdatedAtDt = DateTime.Now;
             game.State = JsonSerializer.Serialize(state, JsonHelper.JsonSerializerOptions);
         }
@@ -54,6 +64,10 @@ public class EfGameRepository : IGameRepository
     public GameState LoadGame(Guid id)
     {
         var game = _ctx.Games.First(g => g.Id == id);
+        if (game == null)
+        {
+            throw new Exception("Game not found!");
+        }
         return JsonSerializer.Deserialize<GameState>(game.State, JsonHelper.JsonSerializerOptions)!;
     }
 

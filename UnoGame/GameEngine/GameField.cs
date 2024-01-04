@@ -26,12 +26,10 @@ public class GameField
             int startAmount = _player.GetCards().Count;
             while (!_player.Cards.Any(UnoGameEngine.ValidateCard))
             {
-                UnoGameEngine.CheckDeck();
-                // ClearLastLine();
-                UnoGameEngine.Take(_player, 1);
+                UnoGameEngine.CheckDeck(false);
+                UnoGameEngine.Take(_player, 1, false);
                 int endAmount = _player.GetCards().Count;
                 WriteLine($"{_player} takes {endAmount - startAmount} card(s)!");
-                // WriteLine("D" + UnoGameEngine.State.Deck.Count);
                 Thread.Sleep(700);
                 ClearLastLine();
             }
@@ -44,14 +42,6 @@ public class GameField
              {
                  Clear();
                  DisplayItems();
-                 // if (UnoGameEngine.State.BeatenDeck.Count != 0)
-                 // {
-                 //     WriteLine(UnoGameEngine.State.BeatenDeck.Last());
-                 // }
-                 // WriteLine("B" + UnoGameEngine.State.BeatenDeck.Count); //DELETE AFTER CHECKING!
-                 // // WriteLine("D" + UnoGameEngine.State.Deck.Count);
-                 // WriteLine("P" + UnoGameEngine.State.Players.Sum(p => p.GetCards().Count));
-                 // WriteLine(UnoGameEngine.State.Deck.Count);
                  ConsoleKeyInfo keyInfo = ReadKey(true);
                  pressedKey = keyInfo.Key;
                  
@@ -82,13 +72,6 @@ public class GameField
              DrawFrame($"{_player} Points: {_player.Points}");
              WriteLine(" ");
              int count = 0;
-             // for (int i = 0; i < _player.Cards.Count; i++)
-             // {
-             //     object currentItem = _player.Cards[i];
-             //     string prefix = (SelectedIndex == i) ? "->" : "  ";
-             //     currentItem = $"{prefix} {currentItem}";
-             //     WriteLine(currentItem);
-             // } 
              while (count != 3)
              {
                  for (int j = 0; j <= 3; j++)
@@ -100,11 +83,6 @@ public class GameField
                  }
                  count++;
              }
-             
-             // WriteLine("B" + UnoGameEngine.State.BeatenDeck.Count);
-             // WriteLine("D" + UnoGameEngine.State.Deck.Count);
-             // WriteLine(UnoGameEngine.State.Players.Sum(p => p.GetCards().Count));
-             // Thread.Sleep(2000);
          }
          else
          {
@@ -158,35 +136,3 @@ public class GameField
          SetCursorPosition(0, currentLineCursor - 1);
      }
 }
-//     private void DisplayItems()
-//     {
-//         DrawFrame(CurrentCard.ToString()
-//         );
-//         
-//         for (int i = 0; i < Cards.Count; i++)
-//         {
-//             object currentItem = Cards[i];
-//             string prefix = (SelectedIndex == i) ? "->" : "  ";
-//             currentItem = $"{prefix} {currentItem}";
-//             WriteLine(currentItem);
-//         }
-//         WriteLine(Separator);
-//         WriteLine("Press T to Take Extra Card");
-//         WriteLine("Press P to Pause Game");
-//         DrawFrame($"{Player} Points: {Player.Points}");
-//     }
-//     
-//     private void DrawFrame(string item)
-//     {
-//         int frameWidth = 30;
-//         int frameHeight = 3;
-//
-//         string topBottomBorder = new string('=', frameWidth);
-//         string cardLine = $"|{item.PadLeft((frameWidth - item.Length) / 2 + item.Length).PadRight(frameWidth - 1)}|";
-//
-//         WriteLine(topBottomBorder);
-//
-//         WriteLine(cardLine);
-//
-//         WriteLine(topBottomBorder);
-//     }
