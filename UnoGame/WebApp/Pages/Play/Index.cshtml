@@ -80,7 +80,7 @@
                         <input type="hidden" name="GameId" value="@Model.GameId">
                         @for (int i = 0; i < UnoGameEngine.GetActivePlayer().GetCards().Count; i++)
                         {
-                            <button type="submit" name="selectedCard" value="@i" class="uno uno-@UnoGameEngine.GetActivePlayer().GetCards()[i].CardColor.ToString().ToLower()">
+                            <button type="submit" name="selectedCard" value="@i" class="uno uno-in-hand uno-@UnoGameEngine.GetActivePlayer().GetCards()[i].CardColor.ToString().ToLower()">
                                 <div class="oval oval-@UnoGameEngine.GetActivePlayer().GetCards()[i].CardColor.ToString().ToLower()">
                                     <span class="unodesc unodesc-@UnoGameEngine.GetActivePlayer().GetCards()[i].CardColor.ToString().ToLower()">
                                         @UnoGameEngine.GetActivePlayer().GetCards()[i].GetShortenedValue()
