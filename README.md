@@ -1,7 +1,9 @@
-Full Name: Andrei Pestov
+## EF
 
-Student code: 222764IADB
+~~~bash
+dotnet tool update --global dotnet-ef
+dotnet ef migrations add --project DAL --startup-project WebApp InitialCreate
 
-School email: anpest@taltech.ee
-
-UNI-ID: anpest
+dotnet ef database update --project DAL
+dotnet ef database drop --project DAL
+~~~
